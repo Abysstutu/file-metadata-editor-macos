@@ -1,0 +1,5 @@
+__pycache__/
+*.py[cod]
+*.metadata-backup
+outputs/
+.DS_Store

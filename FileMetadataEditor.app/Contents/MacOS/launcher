@@ -1,0 +1,15 @@
+#!/bin/sh
+DIR=$(cd "$(dirname "$0")/../Resources" && pwd)
+cd "$DIR" || exit 1
+
+for CANDIDATE in \
+    /usr/local/bin/python3 /opt/homebrew/bin/python3 \
+    /Library/Frameworks/Python.framework/Versions/Current/bin/python3 python3
+do
+    command -v "$CANDIDATE" >/dev/null 2>&1 || continue
+    "$CANDIDATE" -c 'import tkinter' >/dev/null 2>&1 || continue
+    exec "$CANDIDATE" app.py
+done
+
+/usr/bin/osascript -e 'display alert "无法启动" message "未找到带 Tkinter 的 python3。请先安装官方 Python（python.org）或 Homebrew 版 python-tk。"' >/dev/null 2>&1
+exit 1
